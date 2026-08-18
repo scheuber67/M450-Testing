@@ -14,11 +14,11 @@ Bei einem Integrationstest wird geprüft, ob mehrere Teile zusammen funktioniere
 
 Beispiel: Ein Webshop speichert eine Bestellung in der Datenbank. Wir prüfen, ob die Bestellung richtig gespeichert wurde.
 
-### Systemtest
+### Smoke-Test
 
-Bei einem Systemtest wird das ganze Programm getestet.
+Bei einem Smoke-Test wird kurz geprüft, ob die wichtigsten Funktionen des Programms laufen.
 
-Beispiel: Wir testen in einem Webshop den ganzen Ablauf vom Login bis zur Bestellung.
+Beispiel: Nach einem Update prüfen wir, ob der Webshop startet und ob Login und Warenkorb funktionieren.
 
 ## Aufgabe 2
 
