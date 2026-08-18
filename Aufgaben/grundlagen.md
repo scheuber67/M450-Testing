@@ -2,11 +2,11 @@
 
 ## Aufgabe 1
 
-### Komponententest
+### End-to-End-Test
 
-Bei einem Komponententest wird ein kleiner Teil des Programms getestet, zum Beispiel eine Methode.
+Bei einem End-to-End-Test wird ein ganzer Ablauf von Anfang bis Ende getestet.
 
-Beispiel: Wir geben der Preisberechnung verschiedene Zahlen und prüfen, ob der richtige Preis zurückkommt.
+Beispiel: In einem Webshop melden wir uns an, legen ein Produkt in den Warenkorb und schliessen die Bestellung ab.
 
 ### Integrationstest
 
