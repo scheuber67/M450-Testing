@@ -43,8 +43,6 @@ Der Testtreiber prüft diese Fälle:
 - weniger als 3 Extras: kein Rabatt auf Extras
 - 3 Extras: 10 % Rabatt auf Extras
 - 5 Extras: 15 % Rabatt auf Extras
-- Händler- und Zubehörrabatt werden getrennt berechnet
-- alle Werte sind 0
 
 Starten:
 

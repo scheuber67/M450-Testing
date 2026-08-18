@@ -1,11 +1,5 @@
-/** Berechnet den Verkaufspreis eines Autos gemäss den vorgegebenen Regeln. */
-public final class PriceCalculator {
-
-    private PriceCalculator() {
-        // Diese Klasse enthält nur statische Funktionalität.
-    }
-
-    public static double calculatePrice(
+public class PriceCalculator {
+    static double calculatePrice(
             double basePrice,
             double specialPrice,
             double extraPrice,
