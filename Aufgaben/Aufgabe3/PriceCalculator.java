@@ -1,5 +1,3 @@
-package ch.m450.price;
-
 /** Berechnet den Verkaufspreis eines Autos gemäss den vorgegebenen Regeln. */
 public final class PriceCalculator {
 
@@ -29,4 +27,3 @@ public final class PriceCalculator {
                 + extraPrice / 100.0 * (100.0 - addonDiscount);
     }
 }
-

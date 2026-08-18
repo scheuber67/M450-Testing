@@ -1,5 +1,3 @@
-package ch.m450.price;
-
 /** Einfacher Testtreiber ohne Unit-Test-Framework. */
 public final class PriceTestDriver {
 

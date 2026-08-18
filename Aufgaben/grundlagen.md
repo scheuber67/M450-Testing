@@ -33,7 +33,10 @@ Ein Fehler in einer Spitalsoftware gibt einem Patienten die falsche Menge eines 
 
 ## Aufgabe 3
 
-Der Java-Code ist im Ordner `src/ch/m450/price`.
+Der Java-Code ist im Ordner `Aufgaben/Aufgabe3`:
+
+- `PriceCalculator.java`: Preisberechnung
+- `PriceTestDriver.java`: Testtreiber
 
 Der Testtreiber prüft diese Fälle:
 
@@ -46,8 +49,8 @@ Der Testtreiber prüft diese Fälle:
 Starten:
 
 ```powershell
-javac --release 8 -d out src/ch/m450/price/PriceCalculator.java src/ch/m450/price/PriceTestDriver.java
-java -cp out ch.m450.price.PriceTestDriver
+javac --release 8 -d out Aufgaben/Aufgabe3/PriceCalculator.java Aufgaben/Aufgabe3/PriceTestDriver.java
+java -cp out PriceTestDriver
 ```
 
 ## Bonus
