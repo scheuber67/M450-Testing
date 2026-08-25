@@ -6,13 +6,13 @@
 
 Bei einem End-to-End-Test wird ein ganzer Ablauf von Anfang bis Ende getestet.
 
-Beispiel: In einem Webshop melden wir uns an, legen ein Produkt in den Warenkorb und schliessen die Bestellung ab.
+Beispiel: Der User erstellt eine Präsentation
 
 ### Integrationstest
 
 Bei einem Integrationstest wird geprüft, ob mehrere Teile zusammen funktionieren.
 
-Beispiel: Ein Webshop speichert eine Bestellung in der Datenbank. Wir prüfen, ob die Bestellung richtig gespeichert wurde.
+Beispiel: Schauen ob im Backend das richtige zurückgegeben wird bei GET Anfrage.
 
 ### Smoke-Test
 
