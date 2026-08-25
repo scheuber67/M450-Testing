@@ -53,8 +53,6 @@ Diese fünf Testfälle testen die wichtigsten Funktionen der SIXT-Webseite.
 
 Ein Kunde muss einen Abholort und ein Datum auswählen können. Danach muss die Webseite verfügbare Fahrzeuge anzeigen. Anschliessend soll der Kunde ein Fahrzeug auswählen und am Ende eine Buchung durchführen können.
 
-Wenn diese Funktionen korrekt funktionieren, kann die Webseite grundsätzlich für eine Autovermietung verwendet werden.
-
 ## Übung 3
 
 Die Software verwaltet Konten. Man kann Geld einzahlen, abheben und auf ein anderes Konto überweisen.
