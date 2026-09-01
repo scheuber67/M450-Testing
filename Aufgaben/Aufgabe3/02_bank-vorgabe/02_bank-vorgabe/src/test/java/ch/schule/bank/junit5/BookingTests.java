@@ -11,14 +11,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BookingTests {
     @Test
-    void initialization() {
+    void testBooking() {
+        initialization();
+        formattingAndPrint();
+    }
+
+    private void initialization() {
         Booking booking = new Booking(0, 100000);
         assertEquals(0, booking.getDate());
         assertEquals(100000, booking.getAmount());
     }
 
-    @Test
-    void formattingAndPrint() {
+    private void formattingAndPrint() {
         Booking booking = new Booking(0, 100000);
         PrintStream old = System.out;
         ByteArrayOutputStream result = new ByteArrayOutputStream();

@@ -13,22 +13,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AccountTests {
     @Test
-    void initialization() {
+    void testAccount() {
+        initialization();
+        deposit();
+        withdraw();
+        transactionDate();
+        bookingReference();
+        printStatements();
+    }
+
+    private void initialization() {
         Account account = new SavingsAccount("S-1000");
         assertEquals("S-1000", account.getId());
         assertEquals(0, account.getBalance());
     }
 
-    @Test
-    void deposit() {
+    private void deposit() {
         Account account = new SavingsAccount("S-1000");
         assertTrue(account.deposit(10, 5000));
         assertFalse(account.deposit(11, -1));
         assertEquals(5000, account.getBalance());
     }
 
-    @Test
-    void withdraw() {
+    private void withdraw() {
         Account account = new SalaryAccount("P-1000", -10000);
         account.deposit(10, 5000);
         assertTrue(account.withdraw(11, 2000));
@@ -36,8 +43,7 @@ class AccountTests {
         assertEquals(3000, account.getBalance());
     }
 
-    @Test
-    void transactionDate() {
+    private void transactionDate() {
         Account account = new SavingsAccount("S-1000");
         assertTrue(account.canTransact(10));
         account.deposit(10, 5000);
@@ -45,16 +51,14 @@ class AccountTests {
         assertFalse(account.withdraw(9, 1000));
     }
 
-    @Test
-    void bookingReference() {
+    private void bookingReference() {
         Account account = new SavingsAccount("S-1000");
         Booking booking = new Booking(10, 5000);
         account.setBooking(booking);
         assertSame(booking, account.getBooking());
     }
 
-    @Test
-    void printStatements() {
+    private void printStatements() {
         Account account = new SavingsAccount("S-1000");
         account.deposit(0, 100000);
         account.deposit(30, 200000);

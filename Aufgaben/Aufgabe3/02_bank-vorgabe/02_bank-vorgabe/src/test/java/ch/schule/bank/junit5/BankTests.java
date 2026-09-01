@@ -14,7 +14,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BankTests {
     @Test
-    void createAccounts() {
+    void testBank() {
+        createAccounts();
+        depositAndWithdraw();
+        totalBalanceAndReference();
+        printAndSortAccounts();
+        comparatorsHandleEqualBalances();
+    }
+
+    private void createAccounts() {
         Bank bank = new Bank();
         assertEquals("S-1000", bank.createSavingsAccount());
         assertEquals("Y-1001", bank.createPromoYouthSavingsAccount());
@@ -22,8 +30,7 @@ class BankTests {
         assertNull(bank.createSalaryAccount(5000));
     }
 
-    @Test
-    void depositAndWithdraw() {
+    private void depositAndWithdraw() {
         Bank bank = new Bank();
         String id = bank.createSavingsAccount();
 
@@ -35,8 +42,7 @@ class BankTests {
         assertEquals(0, bank.getBalance("unknown"));
     }
 
-    @Test
-    void totalBalanceAndReference() {
+    private void totalBalanceAndReference() {
         Bank bank = new Bank();
         String id = bank.createSavingsAccount();
         bank.deposit(id, 1, 5000);
@@ -47,8 +53,7 @@ class BankTests {
         assertSame(account, bank.getAccount());
     }
 
-    @Test
-    void printAndSortAccounts() {
+    private void printAndSortAccounts() {
         Bank bank = new Bank();
         String first = bank.createSavingsAccount();
         String second = bank.createSavingsAccount();
@@ -66,8 +71,7 @@ class BankTests {
         assertDoesNotThrow(() -> bank.print("unknown", 1970, 1));
     }
 
-    @Test
-    void comparatorsHandleEqualBalances() {
+    private void comparatorsHandleEqualBalances() {
         Account account = new SavingsAccount("S-1");
         assertEquals(0, new AccountBalanceComparator().compare(account, account));
         assertEquals(0, new AccountInverseBalanceComparator().compare(account, account));
