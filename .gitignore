@@ -1,3 +1,7 @@
 out/
 target/
 *.class
+__MACOSX/
+.DS_Store
+.idea/
+*.iml
