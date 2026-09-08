@@ -19,4 +19,4 @@ mvn test
 
 Der Coverage-Bericht wird unter `target/site/jacoco/index.html` erstellt.
 
-Resultat: 6 Tests erfolgreich, ca. 96 % Line Coverage.
+Resultat: 9 Tests erfolgreich, 90 % Class Coverage.
