@@ -13,7 +13,7 @@
 ## Tests
 
 ```powershell
-cd Aufgaben/Aufgabe3/02_bank-vorgabe/02_bank-vorgabe
+cd Aufgaben/JUnit/Aufgabe3-4/bank
 mvn test
 ```
 
