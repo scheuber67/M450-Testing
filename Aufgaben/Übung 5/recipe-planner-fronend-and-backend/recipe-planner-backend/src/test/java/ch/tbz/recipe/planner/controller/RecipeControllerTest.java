@@ -62,5 +62,25 @@ class RecipeControllerTest {
         verify(service).addRecipe(captor.capture());
         assertThat(captor.getValue()).isEqualTo(request);
     }
-}
+    @Test
+    void updateRecipePassesIdAndRequestAndReturnsSavedRecipe() throws Exception {
+        when(service.updateRecipe(eq(id), any(Recipe.class))).thenReturn(recipe);
+        mvc.perform(put("/api/recipes/recipe/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json.writeValueAsString(recipe)))
+                .andExpect(status().isOk())
+                .andExpect(content().json(json.writeValueAsString(recipe), true));
+        verify(service).updateRecipe(id, recipe);
+    }
 
+    @Test
+    void updateRecipeReturnsNotFoundForUnknownId() throws Exception {
+        when(service.updateRecipe(eq(id), any(Recipe.class))).thenThrow(
+                new org.springframework.web.server.ResponseStatusException(
+                        org.springframework.http.HttpStatus.NOT_FOUND));
+        mvc.perform(put("/api/recipes/recipe/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json.writeValueAsString(recipe)))
+                .andExpect(status().isNotFound());
+    }
+}
