@@ -8,33 +8,33 @@ const AddIngredient = ({ingredient, updateIngredient, removeIngredient}) => {
     };
 
     return (
-        <Row>
-            <Col>
+        <Row className="ingredient-row align-items-end">
+            <Col xs={12} sm>
                 <Form.Group className="mb-1" controlId={`ingredientName-${ingredient.listId}`}>
-                    <Form.Label>Ingredient</Form.Label>
-                    <Form.Control name="name" value={ingredient.name} onChange={updateField} required />
+                    <Form.Label>Zutat</Form.Label>
+                    <Form.Control name="name" placeholder="z. B. Mehl" value={ingredient.name} onChange={updateField} required />
                 </Form.Group>
             </Col>
-            <Col>
+            <Col xs={12} sm>
                 <Form.Group className="mb-1" controlId={`ingredientUnit-${ingredient.listId}`}>
-                    <Form.Label>Unit</Form.Label>
+                    <Form.Label>Einheit</Form.Label>
                     <Form.Select name="unit" value={ingredient.unit} onChange={updateField}>
-                        {['PIECE', 'GRAMM', 'KILOGRAMM', 'LITRE', 'DECILITRE'].map(unit => (
-                            <option key={unit} value={unit}>{unit}</option>
+                        {Object.entries({PIECE: 'Stück', GRAMM: 'Gramm', KILOGRAMM: 'Kilogramm', LITRE: 'Liter', DECILITRE: 'Deziliter'}).map(([unit, label]) => (
+                            <option key={unit} value={unit}>{label}</option>
                         ))}
                     </Form.Select>
                 </Form.Group>
             </Col>
-            <Col>
+            <Col xs={12} sm>
                 <Form.Group className="mb-1" controlId={`ingredientAmount-${ingredient.listId}`}>
-                    <Form.Label>Quantity</Form.Label>
-                    <Form.Control name="amount" type="number" min="1" max="2147483647" step="1"
+                    <Form.Label>Menge</Form.Label>
+                    <Form.Control name="amount" placeholder="z. B. 500" type="number" min="1" max="2147483647" step="1"
                         value={ingredient.amount} onChange={updateField} required />
                 </Form.Group>
             </Col>
             <Col xs="auto">
-                <Button type="button" variant="outline-dark" aria-label="Remove ingredient"
-                    onClick={() => removeIngredient(ingredient)}>x</Button>
+                <Button type="button" variant="outline-dark" aria-label="Zutat entfernen"
+                    onClick={() => removeIngredient(ingredient)}>Entfernen</Button>
             </Col>
         </Row>
     );

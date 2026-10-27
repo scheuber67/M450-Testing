@@ -45,7 +45,7 @@ function AddRecipe() {
             !ingredient.name.trim() || !Number.isInteger(Number(ingredient.amount)) ||
             Number(ingredient.amount) < 1 || Number(ingredient.amount) > 2147483647
         )) {
-            setError('Enter a recipe name and complete each ingredient with a positive whole-number quantity.');
+            setError('Bitte einen Rezeptnamen eingeben und jede Zutat mit einer positiven ganzen Menge ausfüllen.');
             return;
         }
 
@@ -67,39 +67,43 @@ function AddRecipe() {
             await axios.post('http://localhost:8080/api/recipes', recipe);
             navigate('/');
         } catch {
-            setError('The recipe could not be saved. Please try again.');
+            setError('Das Rezept konnte nicht gespeichert werden. Bitte erneut versuchen.');
         } finally {
             setSaving(false);
         }
     };
 
     return (
-        <div className="bg">
-            <div className="m-3">
-                <h1 className="h3 bg-dark text-bg-primary mt-2">Add Recipe</h1>
+        <div className="add-recipe">
+            <div className="add-recipe-panel">
+                <h1>Rezept hinzufügen</h1>
                 <Form onSubmit={saveRecipe}>
                     {error && <Alert variant="danger" role="alert">{error}</Alert>}
                     <fieldset disabled={saving}>
                         <Form.Group className="mb-1" controlId="recipeName">
-                            <Form.Label>Recipe Name:</Form.Label>
-                            <Form.Control name="name" value={formData.name} onChange={updateField} required />
+                            <Form.Label>Rezeptname (Pflichtfeld)</Form.Label>
+                            <Form.Control name="name" placeholder="z. B. Spaghetti mit Tomatensauce" value={formData.name} onChange={updateField} required />
                         </Form.Group>
                         <Form.Group className="mb-1" controlId="recipeDescription">
-                            <Form.Label>Description:</Form.Label>
-                            <Form.Control name="description" value={formData.description} onChange={updateField} />
+                            <Form.Label>Beschreibung (optional)</Form.Label>
+                            <Form.Control as="textarea" rows={3} name="description" placeholder="Beschreibe dein Rezept oder die Zubereitung." value={formData.description} onChange={updateField} />
                         </Form.Group>
-                        <Form.Group className="mb-1 mb-5" controlId="recipeImageUrl">
-                            <Form.Label>Image URL:</Form.Label>
-                            <Form.Control name="imageUrl" type="url" value={formData.imageUrl} onChange={updateField} />
+                        <Form.Group className="mb-3" controlId="recipeImageUrl">
+                            <Form.Label>Bildadresse (optional)</Form.Label>
+                            <Form.Control name="imageUrl" type="url" placeholder="https://beispiel.ch/rezept.jpg" value={formData.imageUrl} onChange={updateField} />
                         </Form.Group>
+                        <h2>Zutaten</h2>
+                        <div className="form-text mb-3">Füge Zutaten mit Name, Einheit und Menge hinzu. Die Menge muss eine ganze Zahl sein.</div>
                         {formData.ingredients.map(ingredient => (
                             <AddIngredient key={ingredient.listId} ingredient={ingredient}
                                 updateIngredient={updateIngredient} removeIngredient={removeIngredient} />
                         ))}
-                        <Button type="button" variant="warning" onClick={addIngredient}>Add Ingredient</Button>
-                        <Button variant="primary" type="submit" className="mb-5">
-                            {saving ? 'Saving...' : 'Submit'}
-                        </Button>
+                        <div className="add-recipe-actions">
+                            <Button type="button" variant="outline-secondary" onClick={addIngredient}>Zutat hinzufügen</Button>
+                            <Button variant="primary" type="submit">
+                                {saving ? 'Wird gespeichert...' : 'Rezept speichern'}
+                            </Button>
+                        </div>
                     </fieldset>
                 </Form>
             </div>
