@@ -1,12 +1,16 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './AddRecipe.css';
 import {Alert, Form, Button} from 'react-bootstrap';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 import AddIngredient from '../AddIngredient/AddIngredient';
 
 function AddRecipe() {
     const navigate = useNavigate();
+    const {recipeId} = useParams();
+    const editing = Boolean(recipeId);
+    const [loading, setLoading] = useState(editing);
+    const [loadError, setLoadError] = useState('');
     const [formData, setFormData] = useState({
         name: '', description: '', imageUrl: '', ingredients: []
     });
@@ -14,6 +18,35 @@ function AddRecipe() {
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState('');
 
+    useEffect(() => {
+        if (!recipeId) {
+            setFormData({name: '', description: '', imageUrl: '', ingredients: []});
+            setLoading(false);
+            setLoadError('');
+            return;
+        }
+        let active = true;
+        setLoading(true);
+        setLoadError('');
+        axios.get(`http://localhost:8080/api/recipes/recipe/${recipeId}`)
+            .then(({data}) => {
+                if (!active) return;
+                if (!data || !data.id) throw new Error('Recipe not found');
+                const ingredients = (data.ingredients || []).map((ingredient, index) => ({
+                    ...ingredient, listId: index + 1
+                }));
+                setFormData({name: data.name || '', description: data.description || '',
+                    imageUrl: data.imageUrl || '', ingredients});
+                setNextId(ingredients.length + 1);
+            })
+            .catch(() => {
+                if (active) setLoadError('Das Rezept konnte nicht geladen werden. Bitte zurück zur Liste gehen.');
+            })
+            .finally(() => {
+                if (active) setLoading(false);
+            });
+        return () => { active = false; };
+    }, [recipeId]);
     const updateField = (event) => {
         setFormData({...formData, [event.target.name]: event.target.value});
     };
@@ -55,7 +88,7 @@ function AddRecipe() {
             imageUrl: formData.imageUrl.trim(),
             ingredients: formData.ingredients.map(ingredient => ({
                 name: ingredient.name.trim(),
-                comment: '',
+                comment: ingredient.comment || '',
                 unit: ingredient.unit,
                 amount: Number(ingredient.amount)
             }))
@@ -64,7 +97,11 @@ function AddRecipe() {
         setSaving(true);
         setError('');
         try {
-            await axios.post('http://localhost:8080/api/recipes', recipe);
+            if (editing) {
+                await axios.put(`http://localhost:8080/api/recipes/recipe/${recipeId}`, recipe);
+            } else {
+                await axios.post('http://localhost:8080/api/recipes', recipe);
+            }
             navigate('/');
         } catch {
             setError('Das Rezept konnte nicht gespeichert werden. Bitte erneut versuchen.');
@@ -73,10 +110,18 @@ function AddRecipe() {
         }
     };
 
+    if (loading) return <div className="add-recipe" role="status">Rezept wird geladen...</div>;
+    if (loadError) return (
+        <div className="add-recipe">
+            <Alert variant="danger" role="alert">{loadError}</Alert>
+            <Link to="/">Zurück zur Liste</Link>
+        </div>
+    );
+
     return (
         <div className="add-recipe">
             <div className="add-recipe-panel">
-                <h1>Rezept hinzufügen</h1>
+                <h1>{editing ? 'Rezept bearbeiten' : 'Rezept hinzufügen'}</h1>
                 <Form onSubmit={saveRecipe}>
                     {error && <Alert variant="danger" role="alert">{error}</Alert>}
                     <fieldset disabled={saving}>
@@ -101,8 +146,9 @@ function AddRecipe() {
                         <div className="add-recipe-actions">
                             <Button type="button" variant="outline-secondary" onClick={addIngredient}>Zutat hinzufügen</Button>
                             <Button variant="primary" type="submit">
-                                {saving ? 'Wird gespeichert...' : 'Rezept speichern'}
+                                {saving ? 'Wird gespeichert...' : editing ? 'Änderungen speichern' : 'Rezept speichern'}
                             </Button>
+                            <Button as={Link} to="/" variant="outline-secondary" disabled={saving}>Abbrechen</Button>
                         </div>
                     </fieldset>
                 </Form>

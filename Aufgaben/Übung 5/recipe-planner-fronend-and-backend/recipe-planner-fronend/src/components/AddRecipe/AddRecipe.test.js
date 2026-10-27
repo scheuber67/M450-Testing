@@ -8,11 +8,12 @@ jest.mock('axios');
 
 beforeEach(() => jest.resetAllMocks());
 
-function renderForm() {
+function renderForm(initialPath = '/new-menues') {
     render(
-        <MemoryRouter initialEntries={['/new-menues']}>
+        <MemoryRouter initialEntries={[initialPath]}>
             <Routes>
                 <Route path="/new-menues" element={<AddRecipe />} />
+                <Route path="/recipes/:recipeId/edit" element={<AddRecipe />} />
                 <Route path="/" element={<h1>Recipe list</h1>} />
             </Routes>
         </MemoryRouter>
@@ -80,4 +81,52 @@ test('keeps input after a failed request and allows retry while blocking duplica
     submitForm();
     expect(await screen.findByRole('heading', {name: 'Recipe list'})).toBeInTheDocument();
     expect(axios.post).toHaveBeenCalledTimes(2);
+});
+const savedRecipe = {
+    id: 'recipe-id', name: 'Pasta', description: 'Mit Tomaten', imageUrl: '',
+    ingredients: [{id: 'ingredient-id', name: 'Tomate', comment: 'Frisch', unit: 'GRAMM', amount: 200}]
+};
+
+test('loads an existing recipe and saves changes with PUT using the same recipe id', async () => {
+    axios.get.mockResolvedValueOnce({data: savedRecipe});
+    axios.put.mockResolvedValueOnce({data: savedRecipe});
+    renderForm('/recipes/recipe-id/edit');
+    expect(screen.getByRole('status')).toHaveTextContent('Rezept wird geladen');
+    expect(await screen.findByRole('heading', {name: 'Rezept bearbeiten'})).toBeInTheDocument();
+    expect(axios.get).toHaveBeenCalledWith('http://localhost:8080/api/recipes/recipe/recipe-id');
+    expect(screen.getByLabelText('Rezeptname (Pflichtfeld)')).toHaveValue('Pasta');
+    expect(screen.getByLabelText('Zutat')).toHaveValue('Tomate');
+    fireEvent.change(screen.getByLabelText('Rezeptname (Pflichtfeld)'), {target: {value: 'Tomatenpasta'}});
+    fireEvent.change(screen.getByLabelText('Menge'), {target: {value: '300'}});
+    fireEvent.click(screen.getByRole('button', {name: 'Änderungen speichern'}));
+    expect(await screen.findByRole('heading', {name: 'Recipe list'})).toBeInTheDocument();
+    expect(axios.put).toHaveBeenCalledWith('http://localhost:8080/api/recipes/recipe/recipe-id', {
+        name: 'Tomatenpasta', description: 'Mit Tomaten', imageUrl: '',
+        ingredients: [{name: 'Tomate', comment: 'Frisch', unit: 'GRAMM', amount: 300}]
+    });
+    expect(axios.post).not.toHaveBeenCalled();
+});
+
+test('shows a loading error instead of an empty edit form and allows returning to the list', async () => {
+    axios.get.mockRejectedValueOnce(new Error('Not found'));
+    renderForm('/recipes/missing/edit');
+    expect(await screen.findByRole('alert')).toHaveTextContent('nicht geladen');
+    expect(screen.queryByRole('button', {name: 'Änderungen speichern'})).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('link', {name: 'Zurück zur Liste'}));
+    expect(await screen.findByRole('heading', {name: 'Recipe list'})).toBeInTheDocument();
+    expect(axios.put).not.toHaveBeenCalled();
+});
+
+test('keeps edits when saving fails and cancels without another update', async () => {
+    axios.get.mockResolvedValueOnce({data: savedRecipe});
+    axios.put.mockRejectedValueOnce(new Error('Network error'));
+    renderForm('/recipes/recipe-id/edit');
+    await screen.findByRole('heading', {name: 'Rezept bearbeiten'});
+    fireEvent.change(screen.getByLabelText('Rezeptname (Pflichtfeld)'), {target: {value: 'Geändert'}});
+    fireEvent.click(screen.getByRole('button', {name: 'Änderungen speichern'}));
+    expect(await screen.findByRole('alert')).toHaveTextContent('konnte nicht gespeichert werden');
+    expect(screen.getByLabelText('Rezeptname (Pflichtfeld)')).toHaveValue('Geändert');
+    fireEvent.click(screen.getByRole('button', {name: 'Abbrechen'}));
+    expect(await screen.findByRole('heading', {name: 'Recipe list'})).toBeInTheDocument();
+    expect(axios.put).toHaveBeenCalledTimes(1);
 });
