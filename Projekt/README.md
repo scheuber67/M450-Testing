@@ -36,12 +36,8 @@ mit dem Berechnungsservice.
 
 ## KI-Deklaration
 
-Bei diesem Schulprojekt wurde KI als unterstützendes Werkzeug für Entwurf, Formulierungen
-und Fehlersuche verwendet. Anforderungen, Code, Tests und Testergebnisse wurden geprüft,
-verstanden und verantwortet. Nicht verifizierte Punkte werden im Arbeitsprotokoll
-ausdrücklich gekennzeichnet.
-
-Für die Korrektur eines Test-Erwartungswerts und die Umstellung auf GitHub Actions
-wurde Codex als Agent zum automatischen Bearbeiten von Code, Konfiguration und
-Dokumentation verwendet. Die lokale Testausführung wurde mit Codex geprüft;
-die Erklärung und Prüfung des Workflows gehören zur Projektarbeit.
+Der Grossteil des Anwendungscodes wurde mit KI generiert. Die Tests, die Pipeline
+und die zugehörige Dokumentation haben wir im Rahmen unserer Projektarbeit mit
+KI-Unterstützung erarbeitet. Dabei wurde Codex auch als Agent eingesetzt, um
+Testcode, die GitHub-Actions-Pipeline und Dokumentation automatisch zu erstellen
+oder anzupassen. KI unterstützte uns ausserdem bei Erklärungen und der Fehlersuche.
