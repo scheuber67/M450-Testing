@@ -42,6 +42,20 @@ class CouponCalculationServiceTest {
     }
 
     @Test
+    void roundsDiscountedTotalHalfUp() {
+        CouponRepository repository = mock(CouponRepository.class);
+        when(repository.findByCode("SCHULE10")).thenReturn(java.util.Optional.of(new Coupon(
+                "SCHULE10", new BigDecimal("10"), new BigDecimal("50"),
+                java.time.LocalDate.of(2026, 12, 31))));
+        CouponCalculationService service = new CouponCalculationService(repository,
+                Clock.fixed(Instant.parse("2026-11-02T12:00:00Z"), ZoneOffset.UTC));
+
+        // 50.05 minus 10 % ergibt 45.045 und wird auf 45.05 gerundet.
+        assertEquals(new BigDecimal("45.05"),
+                service.calculate(List.of(new BigDecimal("50.05")), "SCHULE10"));
+    }
+
+    @Test
     void acceptsCouponOnItsExpiryDate() {
         CouponRepository repository = mock(CouponRepository.class);
         when(repository.findByCode("SCHULE10")).thenReturn(java.util.Optional.of(new Coupon(
