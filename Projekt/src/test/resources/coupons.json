@@ -1,0 +1,14 @@
+[
+  {
+    "code": "SCHULE10",
+    "percentage": 10,
+    "minimumOrderValue": 50.00,
+    "expiresOn": "2026-12-31"
+  },
+  {
+    "code": "ALT20",
+    "percentage": 20,
+    "minimumOrderValue": 10.00,
+    "expiresOn": "2026-11-01"
+  }
+]
