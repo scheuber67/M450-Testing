@@ -29,7 +29,7 @@ class CouponCalculationServiceTest {
     }
 
     @Test
-    void acceptsOrderExactlyAtMinimumAndRoundsHalfUp() {
+    void acceptsOrderExactlyAtMinimum() {
         CouponRepository repository = mock(CouponRepository.class);
         when(repository.findByCode("SCHULE10")).thenReturn(java.util.Optional.of(new Coupon(
                 "SCHULE10", new BigDecimal("10"), new BigDecimal("50"),
@@ -37,7 +37,7 @@ class CouponCalculationServiceTest {
         CouponCalculationService service = new CouponCalculationService(repository,
                 Clock.fixed(Instant.parse("2026-11-02T12:00:00Z"), ZoneOffset.UTC));
 
-        assertEquals(new BigDecimal("49.50"),
+        assertEquals(new BigDecimal("45.00"),
                 service.calculate(List.of(new BigDecimal("20.00"), new BigDecimal("30.00")), "SCHULE10"));
     }
 

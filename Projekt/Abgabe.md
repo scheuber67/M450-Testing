@@ -29,8 +29,11 @@ lädt die Gutscheine aus einer JSON-Datei.
 ## Tests und CI
 
 Es gibt Unit-/Mockito-Tests für den Service und einen Integrationstest mit dem echten
-JSON-Repository. Die GitLab-Pipeline führt Build, Tests und die Veröffentlichung des
-HTML-Testreports über GitLab Pages aus.
+JSON-Repository. Der GitHub-Actions-Workflow unter `.github/workflows/projekt.yml`
+im Repository-Hauptverzeichnis automatisiert Build, Tests und auf `main` die
+Veröffentlichung des HTML-Testreports über GitHub Pages. Voraussetzung ist die
+Pages-Einstellung „GitHub Actions“. Ein erfolgreicher Online-Lauf muss nach dem
+Push im Actions-Tab nachgewiesen werden.
 
 ## KI-Deklaration
 
