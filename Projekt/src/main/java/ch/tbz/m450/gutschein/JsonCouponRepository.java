@@ -14,9 +14,11 @@ public class JsonCouponRepository implements CouponRepository {
 
     public JsonCouponRepository(Path jsonFile) {
         try {
-            this.coupons = new ObjectMapper().findAndRegisterModules()
-                    .readValue(Files.newInputStream(jsonFile), new TypeReference<>() {
-                    });
+            try (var input = Files.newInputStream(jsonFile)) {
+                this.coupons = new ObjectMapper().findAndRegisterModules()
+                        .readValue(input, new TypeReference<>() {
+                        });
+            }
         } catch (IOException exception) {
             throw new IllegalStateException("Gutscheine konnten nicht geladen werden", exception);
         }
