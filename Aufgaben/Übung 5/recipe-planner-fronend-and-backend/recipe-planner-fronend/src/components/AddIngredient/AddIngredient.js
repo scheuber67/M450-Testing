@@ -1,46 +1,43 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './AddIngredient.css';
-import {Button, Col, Form, Row} from "react-bootstrap";
+import {Button, Col, Form, Row} from 'react-bootstrap';
 
-const AddIngredient = ({ingredients, ingredient, updateIngredient, removeIngredient}) => {
+const AddIngredient = ({ingredient, updateIngredient, removeIngredient}) => {
+    const updateField = (event) => {
+        updateIngredient({...ingredient, [event.target.name]: event.target.value});
+    };
 
     return (
-        <Row>
-            <Col>
-                <Form.Group className="mb-1" controlId="formBasicName">
-                    <Form.Control placeholder="Name"/>
+        <Row className="ingredient-row align-items-end">
+            <Col xs={12} sm>
+                <Form.Group className="mb-1" controlId={`ingredientName-${ingredient.listId}`}>
+                    <Form.Label>Zutat</Form.Label>
+                    <Form.Control name="name" placeholder="z. B. Mehl" value={ingredient.name} onChange={updateField} required />
                 </Form.Group>
             </Col>
-            <Col>
-                <Form.Group className="mb-1" controlId="formBasicUnit">
-                    <Form.Select>
-                        <option>PIECE</option>
-                        <option>GRAMM</option>
-                        <option>KILOGRAMM</option>
-                        <option>LITRE</option>
-                        <option>DECILITRE</option>
+            <Col xs={12} sm>
+                <Form.Group className="mb-1" controlId={`ingredientUnit-${ingredient.listId}`}>
+                    <Form.Label>Einheit</Form.Label>
+                    <Form.Select name="unit" value={ingredient.unit} onChange={updateField}>
+                        {Object.entries({PIECE: 'Stück', GRAMM: 'Gramm', KILOGRAMM: 'Kilogramm', LITRE: 'Liter', DECILITRE: 'Deziliter'}).map(([unit, label]) => (
+                            <option key={unit} value={unit}>{label}</option>
+                        ))}
                     </Form.Select>
                 </Form.Group>
             </Col>
-            <Col>
-                <Form.Group className="mb-1" controlId="quantity">
-                    <Form.Control placeholder="Quantity"/>
+            <Col xs={12} sm>
+                <Form.Group className="mb-1" controlId={`ingredientAmount-${ingredient.listId}`}>
+                    <Form.Label>Menge</Form.Label>
+                    <Form.Control name="amount" placeholder="z. B. 500" type="number" min="1" max="2147483647" step="1"
+                        value={ingredient.amount} onChange={updateField} required />
                 </Form.Group>
             </Col>
-            <Col xs={1}>
-                <Button
-                    onClick={e => removeIngredient(ingredient)}
-                    variant='outline-dark'
-                    className="mb-1"
-                >x</Button>
+            <Col xs="auto">
+                <Button type="button" variant="outline-dark" aria-label="Zutat entfernen"
+                    onClick={() => removeIngredient(ingredient)}>Entfernen</Button>
             </Col>
         </Row>
-    )
-}
-
-AddIngredient.propTypes = {};
-
-AddIngredient.defaultProps = {};
+    );
+};
 
 export default AddIngredient;
