@@ -9,7 +9,6 @@ prozentualen Gutschein.
 
 - Java 17 und Maven
 - `BigDecimal` für Geldbeträge
-- injizierte `Clock` für testbare Datumsprüfungen
 - JUnit 5 und Mockito
 - Gutscheine aus [coupons.json](src/test/resources/coupons.json)
 
@@ -36,5 +35,5 @@ HTML-Testreports über GitLab Pages aus.
 ## KI-Deklaration
 
 KI wurde unterstützend für Entwurf, Formulierungen und Fehlersuche verwendet. Code,
-Tests und Anforderungen wurden geprüft und verantwortet.
+Tests und Anforderungen wurden geprüft.
 
