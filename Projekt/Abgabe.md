@@ -37,6 +37,9 @@ Push im Actions-Tab nachgewiesen werden.
 
 ## KI-Deklaration
 
-KI wurde unterstützend für Entwurf, Formulierungen und Fehlersuche verwendet. Code,
-Tests und Anforderungen wurden geprüft.
+Der Grossteil des Anwendungscodes wurde mit KI generiert. Die Tests, die Pipeline
+und die zugehörige Dokumentation haben wir im Rahmen unserer Projektarbeit mit
+KI-Unterstützung erarbeitet. Dabei wurde Codex auch als Agent eingesetzt, um
+Testcode, die GitHub-Actions-Pipeline und Dokumentation automatisch zu erstellen
+oder anzupassen. KI unterstützte uns ausserdem bei Erklärungen und der Fehlersuche.
 
